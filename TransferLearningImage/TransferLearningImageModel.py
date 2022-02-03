@@ -77,10 +77,16 @@ class TransferLearningImageModel:
                     , metrics = self.metrics
                 )
     
-    def train(self, initiaEepochs = 100, fineTuneEpochs = 100, fineTuneAt = 100, learningRateFactor=10):
+    def train(self
+                , initiaEepochs = 100
+                , fineTuneEpochs = 100
+                , fineTuneAt = 100
+                , learningRateFactor=10,
+                verbose = 0):
         self.history = self.model.fit(self.imageData.getTrainDataSet(),
                                 epochs=initiaEepochs,
-                                validation_data=self.imageData.getValidationDataSet())
+                                validation_data=self.imageData.getValidationDataSet(),
+                                verbose = verbose)
         
         
         self.baseModel.get().trainable = True
