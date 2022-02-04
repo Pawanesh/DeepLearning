@@ -79,4 +79,7 @@ class TransferLearningImageData:
     
     def getRandomRotation(self):
         return self.randomRotation
+
+    def getClassName(self, label):
+        return self.trainData.class_names[label]
         
