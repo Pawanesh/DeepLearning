@@ -112,7 +112,7 @@ class TransferLearningImageModel:
             return tf.keras.models.load_model(os.path.join(self.modelDirectory, self.modelName + ".h5"))
         return tf.keras.models.load_model(modelPath)
 
-    def plot(self):
+    def plotPerformance(self):
         self.plotHistory(self.history, 'History')
         self.plotHistory(self.historyFineTune, 'HistoryFineTune')
         
@@ -153,4 +153,3 @@ class TransferLearningImageModel:
         score = tf.nn.softmax(predictions[0])
         label = np.argmax(score)
         return label, self.imageData.getClassName(label)
-        
