@@ -109,8 +109,8 @@ class TransferLearningImageModel:
         
     def load(self, modelPath=None):
         if modelPath is None:
-            return tf.keras.models.load_model(os.path.join(self.modelDirectory, self.modelName + ".h5"))
-        return tf.keras.models.load_model(modelPath)
+            self.model = tf.keras.models.load_model(os.path.join(self.modelDirectory, self.modelName + ".h5"))
+        self.model = tf.keras.models.load_model(modelPath)
 
     def plotPerformance(self):
         self.plotHistory(self.history, 'History')
@@ -145,11 +145,13 @@ class TransferLearningImageModel:
     def summary(self):
         return self.model.summary()
 
-    def predict(self, image):
+    def predict(self, image_path):
+        image = tf.keras.preprocessing.image.load_img(image_path, target_size=self.imageData.getImageSize())
+
         img_array = tf.keras.utils.img_to_array(image)
         img_array = tf.expand_dims(img_array, 0) # Create a batch
 
-        predictions = model.predict(img_array)
+        predictions = self.model.predict(img_array)
         score = tf.nn.softmax(predictions[0])
         label = np.argmax(score)
         return label, self.imageData.getClassName(label)
