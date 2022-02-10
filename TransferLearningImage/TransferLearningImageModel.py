@@ -2,6 +2,7 @@ import os
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
+import pathlib
 
 class TransferLearningImageModel:
     "A neural network model based on transfer learning for image classification."
@@ -107,6 +108,16 @@ class TransferLearningImageModel:
     def save(self):
         self.model.save(os.path.join(self.modelDirectory, self.modelName + ".h5"))
         
+        savedDir = os.path.join(self.modelDirectory, 'saved')
+        tf.saved_model.save(self.model, savedDir)
+        
+        converter = tf.lite.TFLiteConverter.from_saved_model(saveddir)
+        tfliteModel = converter.convert()
+        
+        tfliteDir = os.path.join(self.modelDirectory, 'tflite')
+        tfliteModelFile = pathlib.Path(os.path.join(tfliteDir, 'model.tflite'))
+        tfliteModelFile.write_bytes(tfliteModel)
+
     def load(self, modelPath=None):
         if modelPath is None:
             self.model = tf.keras.models.load_model(os.path.join(self.modelDirectory, self.modelName + ".h5"))
