@@ -112,7 +112,7 @@ class TransferLearningImageModel:
         savedDir = os.path.join(self.modelDirectory, 'saved')
         tf.saved_model.save(self.model, savedDir)
         
-        converter = tf.lite.TFLiteConverter.from_saved_model(saveddir)
+        converter = tf.lite.TFLiteConverter.from_saved_model(savedDir)
         tfliteModel = converter.convert()
         
         tfliteDir = os.path.join(self.modelDirectory, 'tflite')
